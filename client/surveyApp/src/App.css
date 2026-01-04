@@ -1374,3 +1374,14 @@ body {
   /* If you want these centered vertically in the remaining space: */
   justify-content: flex-start; 
 }
+
+.results-container {
+  padding-top: 100px !important;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Au cas où vous auriez une div parente "main-content" */
+.main-content {
+  padding-top: 90px !important;
+}
