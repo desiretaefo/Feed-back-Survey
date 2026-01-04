@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { surveyAPI } from '../../api/axios';
-import { Plus, Trash2, Save } from 'lucide-react';
+import { Plus, Trash2, Save, Asterisk } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const QUESTION_TYPES = [
@@ -17,9 +17,12 @@ const SurveyForm = () => {
     title: '',
     description: ''
   });
+  
+  // Added 'required' field to the initial question state
   const [questions, setQuestions] = useState([
-    { id: '1', text: '', type: 'text', options: [] }
+    { id: '1', text: '', type: 'text', options: [], required: false }
   ]);
+  
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -44,7 +47,10 @@ const SurveyForm = () => {
 
   const addQuestion = () => {
     const newId = (questions.length + 1).toString();
-    setQuestions([...questions, { id: newId, text: '', type: 'text', options: [] }]);
+    setQuestions([
+      ...questions, 
+      { id: newId, text: '', type: 'text', options: [], required: false }
+    ]);
   };
 
   const removeQuestion = (index) => {
@@ -98,6 +104,8 @@ const SurveyForm = () => {
         ...formData,
         questions: questions.map(q => ({
           ...q,
+          // Include 'required' in the payload sent to backend
+          required: !!q.required, 
           options: ['radio', 'checkbox', 'select'].includes(q.type) ? q.options : undefined
         }))
       };
@@ -166,7 +174,10 @@ const SurveyForm = () => {
           {questions.map((question, qIndex) => (
             <div key={qIndex} className="question-card">
               <div className="question-header">
-                <span className="question-number">Question {qIndex + 1}</span>
+                <div className="question-meta">
+                    <span className="question-number">Question {qIndex + 1}</span>
+                    {question.required && <span className="required-badge"><Asterisk size={12} /> Required</span>}
+                </div>
                 {questions.length > 1 && (
                   <button
                     type="button"
@@ -189,23 +200,38 @@ const SurveyForm = () => {
                 />
               </div>
 
-              <div className="form-group">
-                <label>Question Type</label>
-                <select
-                  value={question.type}
-                  onChange={(e) => {
-                    handleQuestionChange(qIndex, 'type', e.target.value);
-                    if (requiresOptions(e.target.value) && question.options.length === 0) {
-                      handleQuestionChange(qIndex, 'options', ['', '']);
-                    }
-                  }}
-                >
-                  {QUESTION_TYPES.map(type => (
-                    <option key={type.value} value={type.value}>
-                      {type.label}
-                    </option>
-                  ))}
-                </select>
+              <div className="form-row" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end', marginBottom: '1rem' }}>
+                <div className="form-group" style={{ flex: 2, marginBottom: 0 }}>
+                    <label>Question Type</label>
+                    <select
+                    value={question.type}
+                    onChange={(e) => {
+                        handleQuestionChange(qIndex, 'type', e.target.value);
+                        if (requiresOptions(e.target.value) && question.options.length === 0) {
+                        handleQuestionChange(qIndex, 'options', ['', '']);
+                        }
+                    }}
+                    >
+                    {QUESTION_TYPES.map(type => (
+                        <option key={type.value} value={type.value}>
+                        {type.label}
+                        </option>
+                    ))}
+                    </select>
+                </div>
+
+                {/* --- NEW: REQUIRED TOGGLE --- */}
+                <div className="form-group" style={{ flex: 1, marginBottom: '10px' }}>
+                    <label className="checkbox-label" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '8px' }}>
+                        <input
+                            type="checkbox"
+                            checked={question.required}
+                            onChange={(e) => handleQuestionChange(qIndex, 'required', e.target.checked)}
+                            style={{ width: '18px', height: '18px' }}
+                        />
+                        <span>Mandatory</span>
+                    </label>
+                </div>
               </div>
 
               {/* Options for radio/checkbox/select */}
@@ -224,7 +250,7 @@ const SurveyForm = () => {
                         <button
                           type="button"
                           onClick={() => removeOption(qIndex, oIndex)}
-                          className="btn-icon btn-sm"
+                          className=""
                         >
                           <Trash2 size={16} />
                         </button>

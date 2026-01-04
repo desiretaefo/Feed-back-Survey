@@ -26,6 +26,8 @@ html, body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
 }
 
 body {
@@ -36,6 +38,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: var(--bg-secondary);
   color: var(--text-primary);
+  padding-top: 70px;
 }
 
 #root {
@@ -54,16 +57,21 @@ body {
   flex: 1;
   padding: 2rem;
   width: 100%;
+  margin-top: 0;
+  padding-top: 2rem;
 }
 
 /* Navbar */
 .navbar {
   background: var(--bg-primary);
   box-shadow: var(--shadow);
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   width: 100%;
+  height: 70px;
 }
 
 .nav-container {
@@ -72,6 +80,7 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 100%;
 }
 
 .nav-logo {
@@ -195,7 +204,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 140px);
   padding: 2rem;
   width: 100%;
 }
@@ -262,6 +271,9 @@ body {
   font-size: 1rem;
   transition: border-color 0.2s;
   width: 100%;
+  line-height: 1.5;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .form-group input:focus,
@@ -269,6 +281,8 @@ body {
 .form-group select:focus {
   outline: none;
   border-color: var(--primary);
+  border-width: 2px;
+  padding: calc(0.75rem - 1px);
 }
 
 /* Dashboard */
@@ -277,6 +291,7 @@ body {
   flex-direction: column;
   gap: 2rem;
   width: 100%;
+  padding-top: 1rem;
 }
 
 .dashboard-header {
@@ -285,6 +300,7 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
+  margin-top: 0.5rem;
 }
 
 .dashboard-header h1 {
@@ -429,10 +445,13 @@ body {
   max-width: 900px;
   margin: 0 auto;
   width: 100%;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .survey-form-header {
   margin-bottom: 2rem;
+  margin-top: 1rem;
 }
 
 .survey-form-header h1 {
@@ -480,6 +499,27 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+}
+
+.question-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
   margin-bottom: 1rem;
 }
 
@@ -545,30 +585,30 @@ body {
 .survey-questions {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .question-block {
   background: var(--bg-primary);
-  padding: 2.5rem;
-  border-radius: 1rem;
-  box-shadow: var(--shadow-lg);
-  border: 2px solid transparent;
-  transition: all 0.3s;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
 }
 
 .question-block:hover {
-  border-color: var(--primary);
-  box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.15);
+  border-color: var(--text-secondary);
+  box-shadow: var(--shadow-lg);
 }
 
 .question-block .question-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid var(--bg-secondary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .question-number {
@@ -589,18 +629,63 @@ body {
   font-weight: 500;
 }
 
+.optional-badge {
+  background: #f3f4f6;
+  color: #6b7280;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
 .question-text {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
   color: var(--text-primary);
-  font-weight: 600;
-  line-height: 1.6;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 .form-group textarea {
-  min-height: 120px;
+  min-height: 56px;
+  max-height: 200px;
   resize: vertical;
   font-family: inherit;
+  line-height: 1.5;
+  padding: 0.75rem;
+  overflow-y: auto;
+}
+
+.question-block textarea {
+  width: 100%;
+  min-height: 56px;
+  max-height: 300px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+  transition: all 0.2s;
+  font-family: inherit;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.question-block textarea:hover {
+  border-color: var(--text-secondary);
+}
+
+.question-block textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  border-width: 2px;
+  padding: calc(0.75rem - 1px) calc(1rem - 1px);
+}
+
+.question-block textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
 }
 
 .form-group select {
@@ -611,6 +696,36 @@ body {
   background-size: 12px;
   appearance: none;
   padding-right: 2.5rem;
+}
+
+.question-block select {
+  width: 100%;
+  height: 56px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: var(--bg-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 12px;
+  appearance: none;
+  padding-right: 2.5rem;
+}
+
+.question-block select:hover {
+  border-color: var(--text-secondary);
+}
+
+.question-block select:focus {
+  outline: none;
+  border-color: var(--primary);
+  border-width: 2px;
+  padding: calc(0.75rem - 1px) calc(1rem - 1px);
+  padding-right: calc(2.5rem - 1px);
 }
 
 /* Options */
@@ -624,10 +739,10 @@ body {
 .checkbox-option {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
-  border: 2px solid var(--border);
-  border-radius: 0.75rem;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: all 0.2s;
   background: var(--bg-primary);
@@ -636,28 +751,28 @@ body {
 .radio-option:hover,
 .checkbox-option:hover {
   background: var(--bg-secondary);
-  border-color: var(--primary);
-  transform: translateX(4px);
 }
 
 .radio-option input:checked + span,
 .checkbox-option input:checked + span {
-  font-weight: 600;
+  font-weight: 500;
   color: var(--primary);
 }
 
 .radio-option input,
 .checkbox-option input {
   cursor: pointer;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.125rem;
+  height: 1.125rem;
   accent-color: var(--primary);
+  flex-shrink: 0;
 }
 
 .radio-option span,
 .checkbox-option span {
   flex: 1;
   font-size: 1rem;
+  line-height: 1.5;
 }
 
 .rating-options {
@@ -679,20 +794,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 4rem;
-  height: 4rem;
-  border: 2px solid var(--border);
-  border-radius: 0.75rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  transition: all 0.3s;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  transition: all 0.2s;
   background: var(--bg-primary);
-  box-shadow: var(--shadow);
 }
 
 .rating-number:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  background: var(--bg-secondary);
   border-color: var(--primary);
 }
 
@@ -700,8 +813,6 @@ body {
   background: var(--primary);
   color: white;
   border-color: var(--primary);
-  transform: scale(1.1);
-  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
 }
 
 /* Results */
@@ -709,12 +820,14 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  padding-top: 1rem;
 }
 
 .results-header {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
+  margin-top: 1rem;
   align-items: start;
 }
 
@@ -837,6 +950,7 @@ body {
   max-width: 600px;
   margin: 0 auto;
   width: 100%;
+  padding-top: 1rem;
 }
 
 .profile-card {
@@ -844,6 +958,7 @@ body {
   border-radius: 1rem;
   box-shadow: var(--shadow);
   overflow: hidden;
+  margin-top: 1rem;
 }
 
 .profile-header {
@@ -913,8 +1028,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 140px);
   padding: 2rem;
+  padding-top: 2rem;
 }
 
 .restriction-card {
@@ -925,6 +1041,20 @@ body {
   box-shadow: var(--shadow-lg);
   max-width: 600px;
   width: 100%;
+  margin-top: 1rem;
+}
+
+.restriction-card.auth-card,
+.restriction-card.creator-card {
+  max-width: 500px;
+}
+
+.restriction-card .icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
 }
 
 .restriction-card svg {
@@ -972,12 +1102,62 @@ body {
   outline: none;
   border-color: var(--primary);
 }
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.share-section {
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.form-control {
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  background: var(--bg-primary);
+  font-family: monospace;
+  width: 100%;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-gray-500 {
+  color: var(--text-secondary);
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mt-safe {
+  margin-top: 1rem;
+}
+
+/* Ensure all major page headers have safe spacing from navbar */
+.page-header {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: calc(100vh - 140px);
   gap: 1rem;
 }
 
@@ -1014,7 +1194,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 400px;
+  min-height: calc(100vh - 140px);
 }
 
 .success-card {
@@ -1053,16 +1233,32 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+  body {
+    padding-top: 60px;
+  }
+
+  .navbar {
+    height: 60px;
+  }
+
   .nav-container {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
   }
 
   .nav-menu {
     flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.875rem;
   }
 
   .main-content {
     padding: 1rem;
+    padding-top: 1.5rem;
+    margin-top: 0;
   }
 
   .dashboard-header {
@@ -1085,4 +1281,96 @@ body {
   .form-actions .btn {
     width: 100%;
   }
+
+  .take-survey-container,
+  .survey-form-container {
+    padding-top: 0.5rem;
+  }
+
+  .survey-header {
+    padding: 1.5rem 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .survey-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .results-header,
+  .dashboard-header,
+  .survey-form-header,
+  .page-header {
+    margin-top: 0.5rem;
+  }
+
+  .question-block {
+    padding: 1rem;
+  }
+
+  .rating-options {
+    gap: 0.5rem;
+  }
+
+  .rating-number {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+
+  .restriction-card {
+    padding: 2rem;
+    margin-top: 1rem;
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .auth-buttons .btn {
+    width: 100%;
+  }
+
+  .share-link-box {
+    flex-direction: column;
+  }
+
+  .form-row {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .form-row .form-group {
+    flex: 1 !important;
+  }
+}
+
+/* Add this to your CSS file */
+
+/* 1. Fix for the Take Survey Page */
+.take-survey-container {
+  padding-top: 100px; /* Pushes content down below the navbar */
+  min-height: 100vh;  /* Ensures the background covers the full screen */
+  box-sizing: border-box;
+}
+
+/* 2. Fix for the Results Page */
+.results-container {
+  padding-top: 100px; 
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 3. Fix for the "Restriction/Status" views (Login, Closed, Error screens) */
+.restriction-container,
+.loading-container,
+.success-container,
+.error-message {
+  padding-top: 100px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* If you want these centered vertically in the remaining space: */
+  justify-content: flex-start; 
 }

@@ -52,8 +52,7 @@ export const surveyAPI = {
 
 export const publicAPI = {
   getSurvey: (surveyId) => axios.get(`${API_BASE_URL}/public/surveys/${surveyId}`),
-  submitResponse: (surveyId, data) => 
-    axios.post(`${API_BASE_URL}/public/surveys/${surveyId}/respond`, data)
+  submitResponse: (id, data, config) => axiosInstance.post(`/public/surveys/${id}/respond`, data, config),
 };
 
 export default axiosInstance;

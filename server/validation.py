@@ -18,6 +18,7 @@ class QuestionSchema(BaseModel):
     id: str | int
     text: str = Field(..., min_length=5)
     type: str  # e.g., 'radio', 'text', 'checkbox', 'rating'
+    required: bool = False  #
     options: Optional[List[str]] = None
 
 class SurveyCreateSchema(BaseModel):
