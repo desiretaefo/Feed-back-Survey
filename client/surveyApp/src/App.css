@@ -12,12 +12,13 @@
   --danger: #ef4444;
   --secondary: #6b7280;
   --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
+  --bg-secondary: #ecf3f9;
   --text-primary: #111827;
   --text-secondary: #6b7280;
   --border: #e5e7eb;
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+
 }
 
 html, body {
@@ -28,6 +29,10 @@ html, body {
   overflow-x: hidden;
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
+  min-height: 100%; 
+  height: auto; 
+  background: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 body {
